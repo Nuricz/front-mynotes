@@ -2,7 +2,7 @@ import React from "react";
 
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const NoteList = ({ notes, onUpdateNote }) => {
+const NoteList = ({ notes }) => {
 	return (
 		<ListGroup className="list-group">
 			{notes.map((note) => (
@@ -18,7 +18,6 @@ const NoteList = ({ notes, onUpdateNote }) => {
 					<input
 						type="checkbox"
 						checked={note.archive}
-						onChange={() => onUpdateNote(note)}
 					/>
 				</ListGroup.Item>
 			))}

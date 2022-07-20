@@ -4,30 +4,29 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Container from './components/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { getNotes } from './services'; 
 
 function App() {
-  const [notes, setNotes] = useState(null);
-
-  const onUpdateNote = (note) => {
-    const noteItemIndex = notes.findIndex((x) => x.id === note.id);
-    const newNotes = [...notes];
-
-    const newNote = newNotes[noteItemIndex];
-    newNote.completed = !newNote.completed;
-    newNotes[noteItemIndex] = newNote;
-    setNotes(newNotes);
-  };
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/notes").then((result) => {
-      setNotes(result.data);
-    });
+    async function loadNotes() {
+      const response = await getNotes()
+
+      if (response.status === 200) {
+        console.log(response)
+        setNotes(response.data)
+      }
+    }
+
+    loadNotes()
   }, []); //[] only fires one time when the compent loads
 
 
   return (
     <div className="App">
-      <Container notes={notes} onUpdateNote={onUpdateNote}/>
+      <Container 
+        notes={notes} />
     </div>
   );
 }
